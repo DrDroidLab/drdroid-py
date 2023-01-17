@@ -1,0 +1,45 @@
+syntax = "proto3";
+
+package protos.ingestion;
+
+import "google/protobuf/timestamp.proto";
+
+message Value {
+  // The value is one of the listed fields. It is valid for all values to be unspecified
+  // in which case this AnyValue is considered to be "empty".
+  oneof value {
+    string string_value = 1;
+    bool bool_value = 2;
+    int64 int_value = 3;
+    double double_value = 4;
+    bytes bytes_value = 7;
+  }
+}
+
+message KeyValue {
+  string key = 1;
+  Value value = 2;
+}
+
+message Workflow {
+  string name = 1; // Can this be id?
+}
+
+message WEvent {
+  Workflow workflow = 1;
+  google.protobuf.Timestamp timestamp = 2; // Should we use uint64
+  string state = 3;
+  repeated KeyValue kvs = 4;
+}
+
+message WEPayload {
+  repeated WEvent events = 1;
+}
+
+message WEPayloadIngestionRequest {
+    WEPayload data = 1;
+}
+
+message WEPayloadIngestionResponse {
+  uint64 count = 1;
+}
