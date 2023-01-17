@@ -1,4 +1,4 @@
-# drdroid-py
+# Doctor Droid - Python SDK for custom events
 
 This is a library that will allow developers to push custom stateful events to Doctor Droid Platform. 
 Read more [here](https://kenobi.drdroid.io/docs).
