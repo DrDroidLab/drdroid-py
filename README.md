@@ -39,7 +39,7 @@ dr.publish("Order", "Created", (("ID", "13432"), ("City", "BLR"), ("IS_COD", Fal
 ```
 
 ## View your workflows
-Once your events have been published, you can view the workflow these events are creating and how it resembles the actual business flow for your customers or internal processes. Check out this URL - [http://demo.drdroid.io](http://demo.drdroid.io)
+Once your events have been published, you can view the workflow these events are creating and how it resembles the actual business flow for your customers or internal processes. Check out this URL - [http://demo1.drdroid.io](http://demo1.drdroid.io)
 
 Visit [Doctor Droid website](https://drdroid.io?utm_param=github-py) for getting early access and the [integration documentation](https://kenobi.drdroid.io?utm_param=github-py) for some use-cases it can solve. 
 
