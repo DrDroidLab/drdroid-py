@@ -38,6 +38,6 @@ If you want to publish with a certain timestamp and not default to the current s
 dr.publish("Order", "Created", (("ID", "13432"), ("City", "BLR"), ("IS_COD", False)), event_time=1673439411)
 ```
 
-Visit [Doctor Droid website](https://drdroid.io) for getting early access and the [integration documentation](https://kenobi.drdroid.io) for some use-cases it can solve. 
+Visit [Doctor Droid website](https://drdroid.io?utm_param=github-py) for getting early access and the [integration documentation](https://kenobi.drdroid.io?utm_param=github-py) for some use-cases it can solve. 
 
 For any queries, reach out at [dipesh@drdroid.io](mailto:dipesh@drdroid.io).
