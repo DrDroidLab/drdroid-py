@@ -73,13 +73,16 @@ class DroidEvents():
 		except:
 			timestamp.seconds = int(time.time())
 
-		self.send_http(payloadRequest)
+		try:
+			self.send_http(payloadRequest)
+		except:
+			pass
 
 
 	def send_http(self, proto_payload_request):
 		payload_string = proto_to_json(proto_payload_request)
 		# print(payload_string)
 		resp = requests.post(self.PUBLISH_ENDPOINT, headers=self.headers, data=payload_string)
-		print("Send HTTP Status Code: {}".format(resp.status_code))
-		print("Send HTTP Body: {}".format(resp.text))
+		# print("Send HTTP Status Code: {}".format(resp.status_code))
+		# print("Send HTTP Body: {}".format(resp.text))
 
