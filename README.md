@@ -1,7 +1,7 @@
 # Doctor Droid - Python SDK for custom events
 
 This is a library that will allow developers to push custom stateful events to Doctor Droid Platform. 
-Read more [here](https://kenobi.drdroid.io/docs).
+Read more [here](https://docs.drdroid.io/docs).
 
 ## Install the SDK
 Run this command to get the latest stable version of the SDK.
@@ -13,7 +13,7 @@ pip install pydoctordroid
 You will need to setup local environment variables wherever your application is running that needs to send the events. You will get these from Doctor Droid platform, but for demo, setup them by running the following:
 ```
 export ORG_NAME=DRD
-export DRDROID_HOSTNAME=http://apidemo1.drdroid.io:8080
+export DRDROID_HOSTNAME=https://apidemo2.drdroid.io
 ```
 
 ## Start sending events
@@ -39,8 +39,8 @@ dr.publish("Order", "Created", (("ID", "13432"), ("City", "BLR"), ("IS_COD", Fal
 ```
 
 ## View your workflows
-Once your events have been published, you can view the workflow these events are creating and how it resembles the actual business flow for your customers or internal processes. Check out this URL - [http://demo1.drdroid.io](http://demo1.drdroid.io)
+Once your events have been published, you can view the workflow these events are creating and how it resembles the actual business flow for your customers or internal processes. Check out this URL - [http://demo2.drdroid.io](http://demo2.drdroid.io).
 
-Visit [Doctor Droid website](https://drdroid.io?utm_param=github-py) for getting early access and the [integration documentation](https://kenobi.drdroid.io?utm_param=github-py) for some use-cases it can solve. 
+Visit [Doctor Droid website](https://drdroid.io?utm_param=github-py) for getting early access and the [integration documentation](https://docs.drdroid.io?utm_param=github-py) for some use-cases it can solve. 
 
 For any queries, reach out at [dipesh@drdroid.io](mailto:dipesh@drdroid.io).
