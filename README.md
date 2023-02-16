@@ -30,12 +30,12 @@ dr.publish(WorkFlow_Name, WorkFlow_State, Attribute_KeyValue_Pairs)
 
 For example, creating events for an order placement workflow could look like:
 ```
-dr.publish("Order", "Created", (("ID", "13432"), ("City", "BLR"), ("IS_COD", False)))
+dr.publish("Order", "Created", {"ID": "13432", "City": "BLR", "IS_COD": False})
 ```
 
 If you want to publish with a certain timestamp and not default to the current system time, you can pass _event_time_ in epoch time format (seconds).
 ```
-dr.publish("Order", "Created", (("ID", "13432"), ("City", "BLR"), ("IS_COD", False)), event_time=1673439411)
+dr.publish("Order", "Created", {"ID": "13432", "City": "BLR", "IS_COD": False}, event_time=datetime.now())
 ```
 
 ## View your workflows
