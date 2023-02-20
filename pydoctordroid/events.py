@@ -16,23 +16,20 @@ def event(workflow: str, state: str, payload: dict, event_time: datetime = None)
     }
 
 
-# Missing array type checks
-_valid_type = [bool, int, str, float, list, tuple, set, datetime, dict]
+class EventEncoder(json.JSONEncoder):
+    fmt = '%Y-%m-%dT%H:%M:%S.%fZ'
 
-
-class EventSerializer(json.JSONEncoder):
     def default(self, o: Any) -> Any:
-        if isinstance(o, datetime):
-            fmt = '%Y-%m-%dT%H:%M:%S.%fZ'
-            return o.astimezone(timezone.utc).strftime(fmt)
+        if isinstance(o, Value):
+            return o.value()
+        elif isinstance(o, datetime):
+            return o.astimezone(timezone.utc).strftime(self.fmt)
         elif isinstance(o, set):
             return list(o)
-        elif isinstance(o, Value):
-            return o.value()
 
         return super().default(o)
 
 
 def serialize_events(events: List[EventType]):
     event_data = {'data': {'events': events}}
-    return json.dumps(event_data, separators=(',', ':'), cls=EventSerializer)
+    return json.dumps(event_data, separators=(',', ':'), cls=EventEncoder)

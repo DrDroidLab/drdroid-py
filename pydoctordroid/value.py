@@ -1,6 +1,5 @@
-import abc
 from collections.abc import Iterable
-from datetime import datetime, timezone
+from datetime import datetime
 from typing import Dict
 
 _VALID_TYPES = [bool, str, int, float, datetime, list, tuple, set, dict, Iterable]
@@ -32,10 +31,19 @@ class InvalidValueTypeError(ValueError):
     pass
 
 
-class Value(abc.ABC):
+class Value:
     key = ''
-    instance_type = None
+    typecheck = None
     _value = None
+
+    def __init__(self, value):
+        if self.typecheck and not isinstance(value, self.typecheck):
+            raise InvalidValueTypeError(f'expected value of type {self.typecheck}')
+        self._value = self.process(value)
+
+    @classmethod
+    def process(cls, value):
+        return value
 
     def value(self) -> Dict:
         return {
@@ -43,16 +51,36 @@ class Value(abc.ABC):
         }
 
 
-class PrimitiveValue(Value):
-    def __init__(self, value):
-        if self.instance_type and not isinstance(value, self.instance_type):
-            raise InvalidValueTypeError(f'expected value of type {self.instance_type}')
-        self._value = value
+class StringValue(Value):
+    key = 'string_value'
+    typecheck = str
+
+
+class BoolValue(Value):
+    key = 'bool_value'
+    typecheck = bool
+
+
+class LongValue(Value):
+    key = 'int_value'
+    typecheck = int
+
+
+class DoubleValue(Value):
+    key = 'double_value'
+    typecheck = float
+
+
+class BytesValue(Value):
+    key = 'bytes_value'
+    typecheck = bytes
 
 
 class KeyValue(Value):
-    def __init__(self, key: str, value):
-        self._value = value
+    typecheck = Value
+
+    def __init__(self, key: str, value: Value):
+        super().__init__(value)
         self._key = key
 
     def value(self) -> Dict:
@@ -62,50 +90,17 @@ class KeyValue(Value):
         }
 
 
-class StringValue(PrimitiveValue):
-    key = 'string_value'
-    instance_type = str
-
-
-class BoolValue(PrimitiveValue):
-    key = 'bool_value'
-    instance_type = bool
-
-
-class LongValue(PrimitiveValue):
-    key = 'int_value'
-    instance_type = int
-
-
-class DoubleValue(PrimitiveValue):
-    key = 'double_value'
-    instance_type = float
-
-
-class BytesValue(PrimitiveValue):
-    key = 'bytes_value'
-    instance_type = bytes
-
-
-class DatetimeValue(Value):
-    key = 'string_value'
-    fmt = '%Y-%m-%dT%H:%M:%S.%fZ'
-
-    def __init__(self, value):
-        if not isinstance(value, datetime):
-            raise InvalidValueTypeError('expected value of type Dict')
-        self._value = value.astimezone(timezone.utc).strftime(self.fmt)
-        return
+class DatetimeValue(StringValue):
+    typecheck = datetime
 
 
 class ArrayValue(Value):
     key = 'array_value'
+    typecheck = Iterable
 
-    def __init__(self, value):
-        if not isinstance(value, Iterable):
-            raise InvalidValueTypeError('expected value of type Iterable')
-        self._value = [ValueFactory.value(elem) for elem in value]
-        return
+    @classmethod
+    def process(cls, value):
+        return [ValueFactory.value(elem) for elem in value]
 
     def value(self) -> Dict:
         return {
@@ -115,16 +110,9 @@ class ArrayValue(Value):
         }
 
 
-class DictValue(Value):
+class KVListValue(Value):
     key = 'kvlist_value'
 
-    def __init__(self, value):
-        if not isinstance(value, Dict):
-            raise InvalidValueTypeError('expected value of type Dict')
-        self._value = [KeyValue(key, ValueFactory.value(value)) for key, value in value.items() if
-                       type(value) in _VALID_TYPES or isinstance(type, Iterable)]
-        return
-
     def value(self) -> Dict:
         return {
             self.key: {
@@ -133,20 +121,22 @@ class DictValue(Value):
         }
 
 
-class ObjValue(Value):
-    key = 'kvlist_value'
+class DictValue(KVListValue):
+    typecheck = dict
 
-    def __init__(self, value):
-        self._value = [KeyValue(key, ValueFactory.value(value)) for key, value in value.__dict__.items() if
-                       type(value) in _VALID_TYPES or isinstance(type, Iterable)]
-        return
+    @classmethod
+    def process(cls, value):
+        return [KeyValue(key, ValueFactory.value(value)) for key, value in value.items() if
+                type(value) in _VALID_TYPES or isinstance(type, Iterable)]
 
-    def value(self) -> Dict:
-        return {
-            self.key: {
-                'values': self._value
-            }
-        }
+
+class ObjValue(KVListValue):
+    typecheck = None
+
+    @classmethod
+    def process(cls, value):
+        return [KeyValue(key, ValueFactory.value(value)) for key, value in value.__dict__.items() if
+                type(value) in _VALID_TYPES or isinstance(type, Iterable)]
 
 
 def process_payload(payload: Dict):
