@@ -2,12 +2,12 @@ import json
 from datetime import datetime, timezone
 from typing import Any, Dict, List
 
-from pydoctordroid.value import process_payload, Value
+from pydoctordroid._value import process_payload, Value
 
 EventType = Dict
 
 
-def event(workflow: str, state: str, payload: dict, event_time: datetime = None) -> EventType:
+def create_event(workflow: str, state: str, payload: dict, event_time: datetime = None) -> EventType:
     return {
         'workflow': {'name': workflow},
         'state': state,
