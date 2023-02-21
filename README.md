@@ -58,18 +58,16 @@ dr.publish("Order", "Created", {"ID": "13432", "City": "BLR", "IS_COD": False})
 If you want to publish with a certain timestamp and not default to the current system time, you can pass _event_time_ in
 epoch time format (seconds).
 
-```
+```python
 dr.publish("Order", "Created", {"ID": "13432", "City": "BLR", "IS_COD": False}, event_time=datetime.now())
 ```
 
 
 ## View your workflows
 
-Once your events have been published, you can view the workflow these events are creating and how it resembles the
-actual business flow for your customers or internal processes. Check out this
-URL - [http://demo2.drdroid.io](http://demo2.drdroid.io).
+Once your events have been published, you can view the workflow these events in your DrDroid account @ [https://app.drdroid.io](https://app.drdroid.io).
 
-Visit [Doctor Droid website](https://drdroid.io?utm_param=github-py) for getting early access and
-the [integration documentation](https://docs.drdroid.io?utm_param=github-py) for some use-cases it can solve.
+Visit [Doctor Droid website](https://drdroid.io?utm_param=github-py) for getting early access.
+Go through our [documentation](https://docs.drdroid.io?utm_param=github-py) to learn more.
 
 For any queries, reach out at [dipesh@drdroid.io](mailto:dipesh@drdroid.io).
