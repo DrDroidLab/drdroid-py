@@ -12,7 +12,7 @@ def create_event(workflow: str, state: str, payload: dict, event_time: datetime 
         'workflow': {'name': workflow},
         'state': state,
         'timestamp': (event_time or datetime.now(timezone.utc)),
-        'kvs': process_payload(payload)
+        'kvs': process_payload(payload or {})
     }
 
 
