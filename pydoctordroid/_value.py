@@ -8,6 +8,8 @@ _VALID_TYPES = [bool, str, int, float, datetime, list, tuple, set, dict, Iterabl
 class ValueFactory:
     @staticmethod
     def value(obj):
+        if obj is None:
+            return None
         if isinstance(obj, bool):
             return BoolValue(obj)
         elif isinstance(obj, str):
@@ -100,7 +102,7 @@ class ArrayValue(Value):
 
     @classmethod
     def process(cls, value):
-        return [ValueFactory.value(elem) for elem in value]
+        return [ValueFactory.value(elem) for elem in value if elem]
 
     def value(self) -> Dict:
         return {
@@ -126,8 +128,8 @@ class DictValue(KVListValue):
 
     @classmethod
     def process(cls, value):
-        return [KeyValue(key, ValueFactory.value(value)) for key, value in value.items() if
-                type(value) in _VALID_TYPES or isinstance(type, Iterable)]
+        return [KeyValue(k, ValueFactory.value(v)) for k, v in value.items() if v and
+                type(v) in _VALID_TYPES or isinstance(type, Iterable)]
 
 
 class ObjValue(KVListValue):
@@ -135,9 +137,10 @@ class ObjValue(KVListValue):
 
     @classmethod
     def process(cls, value):
-        return [KeyValue(key, ValueFactory.value(value)) for key, value in value.__dict__.items() if
-                type(value) in _VALID_TYPES or isinstance(type, Iterable)]
+        return [KeyValue(k, ValueFactory.value(v)) for k, v in value.__dict__.items() if v and
+                type(v) in _VALID_TYPES or isinstance(type, Iterable)]
 
 
 def process_payload(payload: Dict):
-    return [KeyValue(key, ValueFactory.value(value)) for key, value in payload.items() if isinstance(key, str)]
+    return [KeyValue(key, ValueFactory.value(value)) for key, value in payload.items() if
+            isinstance(key, str) and value]
