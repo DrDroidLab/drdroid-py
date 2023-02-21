@@ -35,12 +35,14 @@ class DrDroid:
             self._setup = True
         return
 
-    def publish(self, workflow: str, state: str, payload: dict, event_time: datetime = None):
+    def publish(self, workflow: str, state: str, payload: dict = None, event_time: datetime = None):
         if not self._setup:
             return
-
-        event = create_event(workflow, state, payload, event_time)
-        self._event_exporter.export(event)
+        try:
+            event = create_event(workflow, state, payload, event_time)
+            self._event_exporter.export(event)
+        except Exception as e:
+            self._logger.debug(msg=f'Error exporting event: {e}')
         return
 
 
@@ -62,5 +64,5 @@ def setup(token: str, endpoint: str):
     drdroid.setup(token, endpoint)
 
 
-def publish(workflow: str, state: str, payload: dict, event_time: datetime = None):
+def publish(workflow: str, state: str, payload: dict = None, event_time: datetime = None):
     drdroid.publish(workflow, state, payload, event_time)
