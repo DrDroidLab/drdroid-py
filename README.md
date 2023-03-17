@@ -8,7 +8,7 @@ Read more [here](https://docs.drdroid.io/docs).
 Run this command to get the latest stable version of the SDK.
 
 ```
-pip install pydoctordroid
+pip install drdroid-sdk
 ```
 ## Env vars
 
@@ -30,12 +30,12 @@ export DRDROID_AUTH_TOKEN=<TOKEN>
 ## Start sending events
 A global instance of `DrDroid` is created by default based on the config provided through the env vars.
 The global instance can then be used to publish events by directly calling the `publish` api.
+
 ```python
 import pydoctordroid
 
-pydoctordroid.publish("Order", "Created", {"ID": "13432", "City": "BLR", "IS_COD": False})
+pydoctordroid.publish("Order_Created", {"ID": "13432", "City": "BLR", "IS_COD": False})
 ```
-
 
 Alternatively, you can import the module in your python file and create a DrDroid object.
 ```python
@@ -46,20 +46,20 @@ dr = DrDroid()
 You can then send events in the following format:
 
 ```
-dr.publish('WorkFlow_Name, WorkFlow_State, Attribute_KeyValue_Dict)
+dr.publish('Event_Name', Attribute_KeyValue_Dict)
 ```
 
 For example, creating events for an order placement workflow could look like:
 
 ```python
-dr.publish("Order", "Created", {"ID": "13432", "City": "BLR", "IS_COD": False})
+dr.publish("Order_Created", {"ID": "13432", "City": "BLR", "IS_COD": False})
 ```
 
 If you want to publish with a certain timestamp and not default to the current system time, you can pass _event_time_ in
 epoch time format (seconds).
 
 ```python
-dr.publish("Order", "Created", {"ID": "13432", "City": "BLR", "IS_COD": False}, event_time=datetime.now())
+dr.publish("Order_Created", {"ID": "13432", "City": "BLR", "IS_COD": False}, event_time=datetime.now())
 ```
 
 

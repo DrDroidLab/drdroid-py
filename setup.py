@@ -4,7 +4,7 @@ from setuptools import find_packages, setup
 #     long_description = fh.read()
 
 setup(
-    name='pydoctordroid',
+    name='drdroid-sdk',
     setup_requires=['wheel'],
     packages=find_packages(),
     include_package_data=True,
