@@ -7,10 +7,9 @@ from pydoctordroid._value import process_payload, Value
 EventType = Dict
 
 
-def create_event(workflow: str, state: str, payload: dict, event_time: datetime = None) -> EventType:
+def create_event(name: str, payload: dict, event_time: datetime = None) -> EventType:
     return {
-        'workflow': {'name': workflow},
-        'state': state,
+        'name': name,
         'timestamp': (event_time or datetime.now(timezone.utc)),
         'kvs': process_payload(payload or {})
     }

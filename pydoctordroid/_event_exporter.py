@@ -22,7 +22,7 @@ class HttpEventExporter(EventExporter):
             timeout=urllib3.Timeout(connect=1.0, read=2.0)
         )
 
-        self._endpoint = f"{hostname}/w/agent/push_events"
+        self._endpoint = f"{hostname}/e/ingest/events/v2"
         self._logger = logger
 
         return
