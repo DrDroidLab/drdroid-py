@@ -56,7 +56,7 @@ dr.publish("Order_Created", {"ID": "13432", "City": "BLR", "IS_COD": False})
 ```
 
 If you want to publish with a certain timestamp and not default to the current system time, you can pass _event_time_ in
-epoch time format (seconds).
+epoch time format (milliseconds).
 
 ```python
 dr.publish("Order_Created", {"ID": "13432", "City": "BLR", "IS_COD": False}, event_time=datetime.now())
