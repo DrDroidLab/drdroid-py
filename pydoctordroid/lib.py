@@ -7,6 +7,8 @@ from pydoctordroid._logger import setup_logger
 
 _DRDROID_AUTH_TOKEN_ENV = 'DRDROID_AUTH_TOKEN'
 _DRDROID_HOSTNAME_ENV = 'DRDROID_HOSTNAME'
+_DRDROID_SERVICE_NAME_ENV = 'DRDROID_SERVICE_NAME'
+_DRDROID_SERVICE_NAME_KEY = '$drd_service_name'
 _DRDROID_DEBUG = 'DRDROID_DEBUG'
 
 logger = setup_logger(debug=os.environ.get(_DRDROID_DEBUG, False))
@@ -23,6 +25,7 @@ class DrDroid:
         self._setup = False
         self._token = os.environ.get(_DRDROID_AUTH_TOKEN_ENV, token)
         self._hostname = os.environ.get(_DRDROID_HOSTNAME_ENV, endpoint)
+        self._service_name = os.environ.get(_DRDROID_SERVICE_NAME_ENV, "")
         if logger:
             self._logger = logger
         elif os.environ.get(_DRDROID_DEBUG, debug):
@@ -39,6 +42,8 @@ class DrDroid:
         if not self._setup:
             return
         try:
+            if self._service_name is not None:
+                payload[_DRDROID_SERVICE_NAME_KEY] = self._service_name
             event = create_event(name, payload, event_time)
             self._event_exporter.export(event)
         except Exception as e:
