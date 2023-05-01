@@ -1,4 +1,5 @@
 import json
+import time
 from datetime import datetime, timezone
 from typing import Any, Dict, List
 
@@ -7,10 +8,14 @@ from pydoctordroid._value import process_payload, Value
 EventType = Dict
 
 
-def create_event(name: str, payload: dict, event_time: datetime = None) -> EventType:
+def current_milli_time():
+    return round(time.time() * 1000)
+
+
+def create_event(name: str, payload: dict, event_time=None) -> EventType:
     return {
         'name': name,
-        'timestamp': (event_time or datetime.now(timezone.utc)),
+        'timestamp': (event_time or current_milli_time()),
         'kvs': process_payload(payload or {})
     }
 

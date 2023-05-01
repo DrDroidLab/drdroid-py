@@ -35,7 +35,7 @@ class DrDroid:
             self._setup = True
         return
 
-    def publish(self, name: str, payload: dict = None, event_time: datetime = None):
+    def publish(self, name: str, payload: dict = None, event_time=None):
         if not self._setup:
             return
         try:
