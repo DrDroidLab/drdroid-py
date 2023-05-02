@@ -5,7 +5,7 @@ Read more [here](https://docs.drdroid.io/docs).
 
 ## Install the SDK
 
-Run this command to get the latest stable version of the SDK.
+Run this command to get the latest stable version of the SDK (latest version: 2.0.0)
 
 ```
 pip install drdroid-sdk
