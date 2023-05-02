@@ -8,7 +8,7 @@ setup(
     setup_requires=['wheel'],
     packages=['pydoctordroid'],
     include_package_data=True,
-    version='0.1.0',
+    version='2.0.0',
     description='Code Marker Library from Doctor Droid to generate custom events',
     author='Dipesh Mittal',
     author_email="dipesh@drdroid.io",
